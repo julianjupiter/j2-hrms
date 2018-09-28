@@ -1,0 +1,25 @@
+			<nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+                <!--<nav class="col-sm-3 col-md-2 d-none d-sm-block sidebar">-->
+                    <ul class="nav nav-pills flex-column">
+                        <li{% if (attribute.pageTitle == "Dashboard") %} class="nav-item active"{% else %} class="nav-item"{% endif %}>
+                            <a{% if (attribute.pageTitle == "Dashboard") %} class="nav-link active"{% else %} class="nav-link"{% endif %} href="/admin">
+                                <div><i id="icon-dashboard" class="fa fa-tachometer fa-fw icon" aria-hidden="true"></i><span class="nav-link-text">Dashboard</span> <span class="sr-only">(current)</span></div>
+                            </a>
+                        </li>
+                        <li{% if (attribute.pageTitle == "Book") %} class="nav-item active"{% else %} class="nav-item"{% endif %}>
+                            <a{% if (attribute.pageTitle == "Book") %} class="nav-link active"{% else %} class="nav-link"{% endif %} href="/employees">
+                                <div><i id="icon-book" class="fa fa-book fa-fw icon" aria-hidden="true"></i><span class="nav-link-text">Employees</span></div>
+                            </a>
+                        </li>
+                        <li{% if (attribute.pageTitle == "Users") %} class="nav-item active"{% else %} class="nav-item"{% endif %}>
+                            <a{% if (attribute.pageTitle == "Users") %} class="nav-link active"{% else %} class="nav-link"{% endif %} href="/users">
+                                <div><i id="icon-transaction" class="fa fa-handshake-o fa-fw icon" aria-hidden="true"></i><span class="nav-link-text">Users</span></div>
+                            </a>
+                        </li>
+                        <li{% if (attribute.pageTitle == "Report") %} class="nav-item active"{% else %} class="nav-item"{% endif %}>
+                            <a{% if (attribute.pageTitle == "Report") %} class="nav-link active"{% else %} class="nav-link"{% endif %} href="/reports">                                <div></div>
+                                <div><i id="icon-report" class="fa fa-bar-chart fa-fw icon" aria-hidden="true"></i><span class="nav-link-text">Reports</span></div>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>

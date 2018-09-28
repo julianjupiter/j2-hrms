@@ -1,0 +1,13 @@
+{% include "../_includes/head.twig" %}
+{% include "../_includes/nav.twig" %}
+        <div class="container-fluid">
+            <div class="row">
+                {% include "../_includes/sidebar.twig" %}
+                <main class="col-sm-9 ml-sm-auto col-md-10 pt-3" role="main">
+                    <h1>{{ pageName }}</h1>
+                    {% block content %}
+                    {% endblock %}
+                </main>
+            </div>
+        </div>
+{% include "../_includes/footer.twig" %}
