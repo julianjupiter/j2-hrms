@@ -16,8 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service("customUserDetailsService")
 @Transactional
@@ -32,11 +34,13 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) {
 		logger.info("USERNAME:" + username);
 		User user = this.userRepository.findByUsername(username);
-		logger.info("USER:" + user.getEmployeeId() + "|" + user.getUsername() + "|" + user.getPassword() + "|" + user.getRoleId());
+		logger.info("USER:" + user.getUsername() + "|" + user.getPassword());
 
 		if (null == user) {
 			throw new UsernameNotFoundException("User " + username + " does not exist.");
 		}
+
+		logger.info("ROLES SIZE: " + user.getRoles().size());
 
 		return new org.springframework.security.core.userdetails.User(
 				user.getUsername(),
@@ -44,14 +48,15 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 				user.isEnabled(),
 				true,
 				true,
-				true, this.grantedAuthorities(user));
+				true, this.grantedAuthorities(user.getRoles()));
 	}
 
-	private Set<GrantedAuthority> grantedAuthorities(User user) {
-		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-		Optional<Role> roleOptional = this.roleRepository.findById(user.getId());
-		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(roleOptional.get().getCode());
-		grantedAuthorities.add(simpleGrantedAuthority);
+	private Set<GrantedAuthority> grantedAuthorities(Set<Role> roles) {
+		logger.info("ROLES SIZE: " + roles.size());
+		Set<GrantedAuthority> grantedAuthorities = roles.stream().map(role -> {
+			logger.info("ROLE: " + role.getCode());
+			return new SimpleGrantedAuthority(role.getCode());
+		}).collect(Collectors.toSet());
 
 		return grantedAuthorities;
 	}

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "code", "name" }))
@@ -24,8 +25,8 @@ public class Role {
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	private LocalDateTime createdAt;
-/*	@OneToMany(mappedBy = "role")
-	private Set<User> users;*/
+	@ManyToMany(mappedBy = "roles")
+	private Set<User> users;
 
 	public int getId() {
 		return id;
@@ -67,12 +68,11 @@ public class Role {
 		this.createdAt = createdAt;
 	}
 
-/*	public Set<User> getUsers() {
+	public Set<User> getUsers() {
 		return users;
 	}
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
-	}*/
-
+	}
 }

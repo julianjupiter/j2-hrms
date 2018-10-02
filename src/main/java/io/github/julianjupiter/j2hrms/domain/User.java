@@ -9,10 +9,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "username" }))
-@IdClass(UserId.class)
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -23,14 +23,22 @@ public class User implements Serializable {
 	private String username;
 	@NotBlank
 	private String password;
-	@Id
-	private int employeeId;
-	@Id
-	private int roleId;
 	private boolean enabled;
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	private transient LocalDateTime createdAt;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "employee_id")
+	private Employee employee;
+	@ManyToMany(cascade = {
+			CascadeType.PERSIST,
+			CascadeType.MERGE
+	})
+	@JoinTable(name = "user_role",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id")
+	)
+	private Set<Role> roles;
 
 	public int getId() {
 		return id;
@@ -56,22 +64,6 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public int getEmployeeId() {
-		return employeeId;
-	}
-
-	public void setEmployeeId(int employeeId) {
-		this.employeeId = employeeId;
-	}
-
-	public int getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
-	}
-
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -88,4 +80,19 @@ public class User implements Serializable {
 		this.createdAt = createdAt;
 	}
 
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 }

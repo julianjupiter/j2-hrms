@@ -44,8 +44,8 @@ public class CustomAuthenticationSucessHandler implements AuthenticationSuccessH
         boolean isUser = false;
         boolean isEmployee = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
         for (GrantedAuthority grantedAuthority : authorities) {
-            logger.info("ROLE: " + grantedAuthority.getAuthority());
             if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
                 isAdmin = true;
                 break;

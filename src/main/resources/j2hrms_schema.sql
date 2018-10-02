@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS role (
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT code_uq UNIQUE KEY (code),
     CONSTRAINT name_uq UNIQUE KEY (name),
-    CONSTRAINT role_id_pk PRIMARY KEY (id)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS employee (
@@ -19,20 +19,29 @@ CREATE TABLE IF NOT EXISTS employee (
     first_name VARCHAR(255) NOT NULL,
     middle_name VARCHAR(255) NOT NULL,
     extension_name VARCHAR(255) NULL,
-    created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT employee_id_pk PRIMARY KEY (id)
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS user (
 	id INT(11) NOT NULL AUTO_INCREMENT,
+	employee_id INT(11) NOT NULL,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    employee_id INT(11) NOT NULL,
-    role_id INT(11) NOT NULL,
-    enabled TINYINT(1) NOT NULL DEFAULT 1,
+    enabled TINYINT(1) NOT NULL DEFAULT 0,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT username_uq UNIQUE KEY (username),
-    CONSTRAINT employee_id_fk FOREIGN KEY (employee_id) REFERENCES employee (id),
-    CONSTRAINT role_id_fk FOREIGN KEY (role_id) REFERENCES role (id),
-    CONSTRAINT user_id_pk PRIMARY KEY (id)
+    CONSTRAINT employee_uq UNIQUE KEY (employee_id),
+    CONSTRAINT employee_fk FOREIGN KEY (employee_id) REFERENCES employee (id),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS user_role (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    user_id INT(11) NOT NULL,
+    role_id INT(11) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT user_fk FOREIGN KEY (user_id) REFERENCES user (id),
+    CONSTRAINT role_fk FOREIGN KEY (role_id) REFERENCES role (id),
+    PRIMARY KEY (id)
 );
