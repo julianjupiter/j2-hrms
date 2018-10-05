@@ -26,17 +26,17 @@ public class User implements Serializable {
 	private boolean enabled;
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	private transient LocalDateTime createdAt;
+	private LocalDateTime createdAt;
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "employee_id")
 	private Employee employee;
 	@ManyToMany(cascade = {
-			CascadeType.PERSIST,
-			CascadeType.MERGE
+		CascadeType.PERSIST,
+		CascadeType.MERGE
 	})
 	@JoinTable(name = "user_role",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "role_id")
+		joinColumns = @JoinColumn(name = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "role_id")
 	)
 	private Set<Role> roles;
 

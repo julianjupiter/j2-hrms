@@ -15,50 +15,48 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service("customUserDetailsService")
 @Transactional
-public class CustomUserDetailsServiceImpl implements UserDetailsService {
+public class CustomUserDetailsServiceImpl implements UserDetailsService, UserService {
 	private static Logger logger = LoggerFactory.getLogger(CustomUserDetailsServiceImpl.class);
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private RoleRepository roleRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) {
-		logger.info("USERNAME:" + username);
-		User user = this.userRepository.findByUsername(username);
-		logger.info("USER:" + user.getUsername() + "|" + user.getPassword());
+		User user = this.findByUsername(username).orElse(null);
 
 		if (null == user) {
 			throw new UsernameNotFoundException("User " + username + " does not exist.");
 		}
 
-		logger.info("ROLES SIZE: " + user.getRoles().size());
-
-		return new org.springframework.security.core.userdetails.User(
-				user.getUsername(),
-				user.getPassword(),
-				user.isEnabled(),
-				true,
-				true,
-				true, this.grantedAuthorities(user.getRoles()));
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, this.grantedAuthorities(user.getRoles()));
 	}
 
-	private Set<GrantedAuthority> grantedAuthorities(Set<Role> roles) {
-		logger.info("ROLES SIZE: " + roles.size());
-		Set<GrantedAuthority> grantedAuthorities = roles.stream().map(role -> {
-			logger.info("ROLE: " + role.getCode());
-			return new SimpleGrantedAuthority(role.getCode());
-		}).collect(Collectors.toSet());
+    @Override
+    public Collection<User> findAll() {
+        return this.userRepository.findAll();
+    }
 
-		return grantedAuthorities;
+    @Override
+    public Optional<User> findById(int id) {
+        return this.userRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return this.userRepository.findByUsername(username);
+    }
+
+    private Set<GrantedAuthority> grantedAuthorities(Set<Role> roles) {
+		return roles.stream()
+			.map(role -> new SimpleGrantedAuthority(role.getCode()))
+			.collect(Collectors.toSet());
 	}
 
 }

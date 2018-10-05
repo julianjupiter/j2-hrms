@@ -1,0 +1,9 @@
+{# Form #}
+
+{% macro password (name, value) %}
+<input type="password" id="{{ name }}" class="" name="{{ name }}" value="{{ value }}">
+{% endmacro %}
+
+{% macro text (name, value) %}
+<input type="text" id="{{ name }}" class="" name="{{ name }}" value="{{ value }}">
+{% endmacro %}

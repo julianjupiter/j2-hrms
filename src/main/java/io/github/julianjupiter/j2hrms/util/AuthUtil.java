@@ -6,6 +6,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
 public class AuthUtil {
+
+	private boolean loggedIn;
 	
 	private AuthUtil() {}
 	
@@ -25,8 +27,8 @@ public class AuthUtil {
 		return principal.toString();
 	}
 
-	public static boolean isLoggedIn() {
+	public static boolean isAuthenticated() {
 		return !(getAuthentication() instanceof AnonymousAuthenticationToken);
 	}
-	
+
 }

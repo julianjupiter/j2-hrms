@@ -10,6 +10,11 @@ public class Attributes {
     public static final String LOGIN_ERROR_MESSAGE = "loginErrorMessage";
     public static final String REDIRECT_HOME = "redirect:/home";
 
+    public static final String USERS = "users";
+    public static final String USER = "user";
+    public static final String EMPLOYEES = "employees";
+    public static final String EMPLOYEE = "employee";
+
     private Attributes() {}
 
 }

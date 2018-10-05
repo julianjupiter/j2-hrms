@@ -47,15 +47,16 @@ public class AuthenticationController extends BaseController {
 
 	@GetMapping({ "", "/", "/login" })
 	public String login(Model model) {
-		if (AuthUtil.isLoggedIn()) {
+		if (AuthUtil.isAuthenticated()) {
 			logger.info("Redirects to home");
 			return Attributes.REDIRECT_HOME;
 		}
 
 		boolean hasError = request.getParameterMap().containsKey(Attributes.ERROR);
+		model.addAttribute(Attributes.HAS_ERROR, hasError);
+
 		if (hasError) {
 			logger.info("Login error");
-			model.addAttribute(Attributes.HAS_ERROR, hasError);
 			model.addAttribute(Attributes.LOGIN_ERROR_MESSAGE, loginErrorMessage);
 		}
 

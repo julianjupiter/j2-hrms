@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-public abstract class BaseController {
+public class BaseController {
 
 	@Value("${application.name}")
 	private String applicationName;
