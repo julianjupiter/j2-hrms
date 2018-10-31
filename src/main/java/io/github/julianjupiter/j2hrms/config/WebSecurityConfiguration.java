@@ -1,6 +1,6 @@
 package io.github.julianjupiter.j2hrms.config;
 
-import io.github.julianjupiter.j2hrms.util.RoleType;
+import io.github.julianjupiter.j2hrms.util.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -13,22 +13,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.WebAttributes;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.Collection;
 
 @Configuration
 @EnableWebSecurity
@@ -77,10 +64,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
                 .antMatchers("/h2-console/**")
                 .permitAll()
-				.antMatchers("/admin/**").hasRole(RoleType.ADMIN)
-                .antMatchers("/employees").hasRole(RoleType.ADMIN)
-                .antMatchers("/users").hasRole(RoleType.ADMIN)
-                .antMatchers("/reports").hasRole(RoleType.ADMIN)
+				.antMatchers("/admin/**").hasRole(Roles.ADMIN)
+                .antMatchers("/employees").hasRole(Roles.ADMIN)
+                .antMatchers("/users").hasRole(Roles.ADMIN)
+                .antMatchers("/reports").hasRole(Roles.ADMIN)
 				.anyRequest().authenticated()
 			.and()
 				.formLogin()

@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/employees")
+@RequestMapping("/admin/employees")
 public class EmployeeController extends BaseController {
 
 	private static Logger logger = LoggerFactory.getLogger(EmployeeController.class);

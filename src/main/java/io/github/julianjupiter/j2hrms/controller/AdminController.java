@@ -14,14 +14,7 @@ public class AdminController extends BaseController {
     @Value("${page.name.dashboard}")
     private String pageName;
 
-    @GetMapping({ "", "/" })
-    public String index(Model model) {
-        model.addAttribute(Attributes.PAGE_NAME, pageName);
-
-        return "admin/index";
-    }
-
-    @GetMapping("/dashboard")
+    @GetMapping({ "", "/", "/dashboard"})
     public String dashboard(Model model) {
         model.addAttribute(Attributes.PAGE_NAME, pageName);
 

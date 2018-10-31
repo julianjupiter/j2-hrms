@@ -1,5 +1,6 @@
 package io.github.julianjupiter.j2hrms.config;
 
+import io.github.julianjupiter.j2hrms.util.Roles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -46,13 +47,13 @@ public class CustomAuthenticationSucessHandler implements AuthenticationSuccessH
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
         for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
+            if (grantedAuthority.getAuthority().equals(Roles.ROLE_ADMIN)) {
                 isAdmin = true;
                 break;
-            } else if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
+            } else if (grantedAuthority.getAuthority().equals(Roles.ROLE_USER)) {
                 isUser = true;
                 break;
-            } else if (grantedAuthority.getAuthority().equals("ROLE_EMPLOYEE")) {
+            } else if (grantedAuthority.getAuthority().equals(Roles.ROLE_EMPLOYEE)) {
                 isEmployee = true;
                 break;
             }

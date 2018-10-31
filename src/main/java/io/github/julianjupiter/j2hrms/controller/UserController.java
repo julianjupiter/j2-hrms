@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/admin/users")
 public class UserController extends BaseController {
 
 	private static Logger logger = LoggerFactory.getLogger(UserController.class);
